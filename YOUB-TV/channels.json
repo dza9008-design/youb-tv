@@ -1,0 +1,37 @@
+[
+    {
+        "id": "beinsport1",
+        "name": "beIN Sports 1 HD",
+        "category": "sports",
+        "logo": "https://upload.wikimedia.org/wikipedia/en/1/18/BeIN_Sports_1_%28MENA%29_logo.svg",
+        "streamUrl": "https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
+    },
+    {
+        "id": "beinsport2",
+        "name": "beIN Sports 2 HD",
+        "category": "sports",
+        "logo": "https://upload.wikimedia.org/wikipedia/en/1/18/BeIN_Sports_1_%28MENA%29_logo.svg",
+        "streamUrl": "https://f24hls-i.akamaihd.net/hls/live/221991/F24_AR_HLS/master.m3u8"
+    },
+    {
+        "id": "aljazeera",
+        "name": "الجزيرة الإخبارية",
+        "category": "news",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Al_Jazeera_Arabic_logo.png",
+        "streamUrl": "https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
+    },
+    {
+        "id": "france24",
+        "name": "فرانس 24 عربي",
+        "category": "news",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/1/1a/France_24_logo.svg",
+        "streamUrl": "https://f24hls-i.akamaihd.net/hls/live/221991/F24_AR_HLS/master.m3u8"
+    },
+    {
+        "id": "mbc1",
+        "name": "MBC 1",
+        "category": "general",
+        "logo": "https://upload.wikimedia.org/wikipedia/en/5/5a/MBC1_Logo.svg",
+        "streamUrl": "https://shls-mbc1-dubai.shahid.net/out/v1/7d36376839354019a79709292c3a50d2/index.m3u8"
+    }
+]
