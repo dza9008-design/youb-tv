@@ -1,0 +1,35 @@
+name: Run YOUB TV Bot Automatically
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # يعمل تلقائياً كل 15 دقيقة
+  workflow_dispatch: # يتيح لك تشغيله يدوياً متى شئت
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python Bot
+        run: python bot.py
+
+      - name: Commit and push updated JSON files
+        run: |
+          git config --global user.name "YOUB Bot"
+          git config --global user.email "bot@youbtv.com"
+          git add matches.json channels.json news.json
+          git diff --quiet && git diff --cached --quiet || (git commit -m "🤖 Auto-update from YOUB TV Bot [skip ci]" && git push)
