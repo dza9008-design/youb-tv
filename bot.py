@@ -1,28 +1,23 @@
 from datetime import datetime, timedelta
 import json
 import os
-import requests
-
-# يمكنك استبدال الرابط أدناه بـ API حقيقي للمباريات (مثل API-Football أو أي مصدر تفضله)
-# حالياً سنقوم ببناء هيكل ديناميكي يعتمد على التاريخ الحقيقي ويجلب البيانات بسلاسة.
 
 
 def fetch_matches():
-  print("[*] جاري جلب جدول المباريات الحقيقي (البارحة، اليوم، الغد)...")
+  print("[*] جاري توليد جدول المباريات المتوافق مع الواجهة...")
 
-  # حساب التواريخ بدقة تلقائياً
+  # حساب التواريخ بدقة مطابقة لما يبحث عنه الموقع
   today = datetime.now().strftime("%Y-%m-%d")
   yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
   tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
 
-  print(f"[*] التواريخ المحدثة -> الأمس: {yesterday} | اليوم: {today} | الغد: {tomorrow}")
-
-  # هيكل البيانات الذي سيتغذى منه الموقع مباشرة
+  # الهيكل المدعوم بالكامل بواسطة صفحة العرض
   matches_data = {
       "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
       "dates": {"yesterday": yesterday, "today": today, "tomorrow": tomorrow},
       "matches": {
-          "yesterday": [
+          # مباريات الأمس
+          yesterday: [
               {
                   "time": "21:00",
                   "competition": "تصفيات كأس أمم أفريقيا",
@@ -37,7 +32,8 @@ def fetch_matches():
                   "commentator": "حاج عيسى",
               }
           ],
-          "today": [
+          # مباريات اليوم (تاريخ اليوم الحقيقي لكي تظهر تلقائياً)
+          today: [
               {
                   "time": "20:00",
                   "competition": "الدوري الإسباني - كلاسيكو الأرض",
@@ -52,7 +48,8 @@ def fetch_matches():
                   "commentator": "عصام الشوالي",
               }
           ],
-          "tomorrow": [
+          # مباريات الغد
+          tomorrow: [
               {
                   "time": "21:00",
                   "competition": "دوري أبطال أوروبا",
@@ -70,20 +67,19 @@ def fetch_matches():
       },
   }
 
-  # حفظ الملف بصيغة JSON وبترميز UTF-8 لضمان ظهور النصوص العربية بشكل مثالي
   with open("matches.json", "w", encoding="utf-8") as f:
     json.dump(matches_data, f, ensure_ascii=False, indent=4)
-  print("[+] تم تحديث matches.json بنجاح بالبيانات الحية.")
+  print("[+] تم تحديث matches.json بنجاح بالتواريخ المتطابقة.")
 
 
 def fetch_news():
-  print("[*] جاري جلب أحدث الأخبار الرياضية الحية...")
-
   news_data = {
       "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
       "articles": [
           {
-              "title": "المنتخب الجزائري يواصل تحضيراته بقوة وبستركيز كبير من اللاعبين",
+              "title": (
+                  "المنتخب الجزائري يواصل تحضيراته بقوة وبتركيز كبير من اللاعبين"
+              ),
               "time": datetime.now().strftime("%H:%M"),
               "content": (
                   "تحديث آلي عبر نظام YOUB TV الذكي لجلب آخر المستجدات"
