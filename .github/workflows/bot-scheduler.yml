@@ -1,17 +1,17 @@
-name: Run YOUB TV Bot Automatically
+name: YOUB TV Auto-Scraper
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # يعمل تلقائياً كل 15 دقيقة
-  workflow_dispatch: # يتيح لك تشغيله يدوياً متى شئت
+    - cron: '*/15 * * * *' # يعمل تلقائياً كل 15 دقيقة في الخلفية
+  workflow_dispatch:
 
 jobs:
-  run-bot:
+  run-scraper:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -22,14 +22,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install requests beautifulsoup4
 
-      - name: Run Python Bot
+      - name: Run Bot Script
         run: python bot.py
 
-      - name: Commit and push updated JSON files
+      - name: Commit and Push JSON Updates
         run: |
-          git config --global user.name "YOUB Bot"
+          git config --global user.name "YOUB Bot Automation"
           git config --global user.email "bot@youbtv.com"
-          git add matches.json channels.json news.json
-          git diff --quiet && git diff --cached --quiet || (git commit -m "🤖 Auto-update from YOUB TV Bot [skip ci]" && git push)
+          git add matches.json news.json
+          git diff --quiet && git diff --cached --quiet || (git commit -m "🤖 Auto-update matches & news [skip ci]" && git push)
