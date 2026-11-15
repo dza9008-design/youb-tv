@@ -1,55 +1,50 @@
 {
-    "updated_at": "2026-11-15 12:37:31",
-    "dates": {
-        "yesterday": "2026-11-14",
-        "today": "2026-11-15",
-        "tomorrow": "2026-11-16"
-    },
-    "matches": {
-        "2026-11-14": [
-            {
-                "time": "21:00",
-                "competition": "تصفيات كأس أمم أفريقيا",
-                "stadium": "ملعب الشهداء",
-                "home_team": "الجزائر",
-                "away_team": "توجو",
-                "home_flag": "🇩🇿",
-                "away_flag": "🇹🇬",
-                "score": "2 - 0",
-                "status": "انتهت",
-                "channel": "بي إن سبورت 1",
-                "commentator": "حفيظ دراجي"
-            }
-        ],
-        "2026-11-15": [
-            {
-                "time": "20:00",
-                "competition": "دوري أبطال أوروبا",
-                "stadium": "سانتياغو برنابيو",
-                "home_team": "ريال مدريد",
-                "away_team": "مانشستر سيتي",
-                "home_flag": "🇪🇸",
-                "away_flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-                "score": "1 - 1",
-                "status": "جاري الان",
-                "channel": "بي إن سبورت 2",
-                "commentator": "عصام الشوالي"
-            }
-        ],
-        "2026-11-16": [
-            {
-                "time": "21:00",
-                "competition": "الدوري الإسباني",
-                "stadium": "كامب نو",
-                "home_team": "برشلونة",
-                "away_team": "أتلتيكو مدريد",
-                "home_flag": "🇪🇸",
-                "away_flag": "🇪🇸",
-                "score": "0 - 0",
-                "status": "قريباً",
-                "channel": "بي إن سبورت 1",
-                "commentator": "حاج عيسى"
-            }
-        ]
-    }
+    "2026-11-14": [
+        {
+            "title": "تصفيات كأس أمم أفريقيا",
+            "stadium": "ملعب الشهداء",
+            "team1": "الجزائر",
+            "team2": "توجو",
+            "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg",
+            "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/6/68/Flag_of_Togo.svg",
+            "score": "2 - 0",
+            "status": "انتهت",
+            "statusClass": "ended",
+            "channel": "بي إن سبورت 1",
+            "commentator": "حفيظ دراجي",
+            "streamUrl": "https://example.com/stream1"
+        }
+    ],
+    "2026-11-15": [
+        {
+            "title": "دوري أبطال أوروبا",
+            "stadium": "سانتياغو برنابيو",
+            "team1": "ريال مدريد",
+            "team2": "مانشستر سيتي",
+            "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/5/56/Real_Madrid_CF.svg",
+            "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Manchester_City_Logo_%282016%29.svg",
+            "score": "1 - 1",
+            "status": "جاري الآن",
+            "statusClass": "second-half",
+            "channel": "بي إن سبورت 2",
+            "commentator": "عصام الشوالي",
+            "streamUrl": "https://example.com/stream2"
+        }
+    ],
+    "2026-11-16": [
+        {
+            "title": "الدوري الإسباني",
+            "stadium": "كامب نو",
+            "team1": "برشلونة",
+            "team2": "أتلتيكو مدريد",
+            "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/4/47/FC_Barcelona_%28crest%29.svg",
+            "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Atletico_Madrid_logo_2024.svg",
+            "score": "0 - 0",
+            "status": "قريباً",
+            "statusClass": "upcoming",
+            "channel": "بي إن سبورت 1",
+            "commentator": "حاج عيسى",
+            "streamUrl": "https://example.com/stream3"
+        }
+    ]
 }
