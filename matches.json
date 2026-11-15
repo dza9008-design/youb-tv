@@ -1,68 +1,55 @@
 {
-    "yesterday": [
-        {
-            "id": "match_y1",
-            "title": "دوري أبطال أوروبا",
-            "stadium": "ملعب أمستردام",
-            "team1": "أياكس أمستردام",
-            "team1Logo": "https://upload.wikimedia.org/wikipedia/en/7/79/AFC_Ajax_%28crest%29.svg",
-            "team2": "بايرن ميونخ",
-            "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg",
-            "score": "2 - 2",
-            "status": "انتهت",
-            "statusClass": "ended",
-            "channel": "بي إن سبورت 1",
-            "commentator": "حفيظ دراجي",
-            "streamUrl": "https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
-        }
-    ],
-    "today": [
-        {
-            "id": "algeria_togo",
-            "title": "تصفيات كأس أمم أفريقيا",
-            "stadium": "ملعب الشهداء",
-            "team1": "الجزائر",
-            "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg",
-            "team2": "توجو",
-            "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/6/68/Flag_of_Togo.svg",
-            "score": "1 - 0",
-            "status": "جارية الان",
-            "statusClass": "",
-            "channel": "بي إن سبورت 1",
-            "commentator": "حاج عيسى",
-            "streamUrl": "https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
-        },
-        {
-            "id": "real_barca",
-            "title": "كلاسيكو الأرض - الدوري الإسباني",
-            "stadium": "سانتياغو برنابيو",
-            "team1": "ريال مدريد",
-            "team1Logo": "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg",
-            "team2": "برشلونة",
-            "team2Logo": "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg",
-            "score": "2 - 1",
-            "status": "الشوط الثاني",
-            "statusClass": "second-half",
-            "channel": "بي إن سبورت 2",
-            "commentator": "عصام الشوالي",
-            "streamUrl": "https://f24hls-i.akamaihd.net/hls/live/221991/F24_AR_HLS/master.m3u8"
-        }
-    ],
-    "tomorrow": [
-        {
-            "id": "match_t1",
-            "title": "دوري أبطال آسيا",
-            "stadium": "الملعب الملكي",
-            "team1": "الهلال السعودي",
-            "team1Logo": "https://upload.wikimedia.org/wikipedia/en/b/b5/Al-Hilal_Saudi_FC_logo.svg",
-            "team2": "العين الإماراتي",
-            "team2Logo": "https://upload.wikimedia.org/wikipedia/en/c/c5/Al_Ain_FC_logo.svg",
-            "score": "0 - 0",
-            "status": "غداً 18:00",
-            "statusClass": "upcoming",
-            "channel": "بين سبورت آسيا",
-            "commentator": "فهد العتيبي",
-            "streamUrl": "https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
-        }
-    ]
+    "updated_at": "2026-11-15 12:09:28",
+    "dates": {
+        "yesterday": "2026-11-14",
+        "today": "2026-11-15",
+        "tomorrow": "2026-11-16"
+    },
+    "matches": {
+        "yesterday": [
+            {
+                "time": "21:00",
+                "competition": "تصفيات كأس أمم أفريقيا",
+                "stadium": "ملعب الشهداء",
+                "home_team": "الجزائر",
+                "away_team": "توجو",
+                "home_flag": "🇩🇿",
+                "away_flag": "🇹🇬",
+                "score": "1 - 0",
+                "status": "انتهت",
+                "channel": "بي إن سبورت 1",
+                "commentator": "حاج عيسى"
+            }
+        ],
+        "today": [
+            {
+                "time": "20:00",
+                "competition": "الدوري الإسباني - كلاسيكو الأرض",
+                "stadium": "سانتياغو برنابيو",
+                "home_team": "ريال مدريد",
+                "away_team": "برشلونة",
+                "home_flag": "🇪🇸",
+                "away_flag": "🇪🇸",
+                "score": "1 - 2",
+                "status": "الشوط الثاني",
+                "channel": "بي إن سبورت 2",
+                "commentator": "عصام الشوالي"
+            }
+        ],
+        "tomorrow": [
+            {
+                "time": "21:00",
+                "competition": "دوري أبطال أوروبا",
+                "stadium": "أنفيلد",
+                "home_team": "ليفربول",
+                "away_team": "ريال مدريد",
+                "home_flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+                "away_flag": "🇪🇸",
+                "score": "0 - 0",
+                "status": "قريباً",
+                "channel": "بي إن سبورت 1",
+                "commentator": "حفيظ دراجي"
+            }
+        ]
+    }
 }
