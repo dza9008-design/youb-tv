@@ -1,93 +1,200 @@
-from datetime import datetime, timedelta
-import json
-import os
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOUB TV - البث الحي والمباريات الشاملة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-banner { background: linear-gradient(135deg, rgba(15, 16, 21, 0.95), rgba(168, 28, 28, 0.2)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 16px; padding: 35px 25px; margin: 20px auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        .hero-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .hero-title span { color: #e50914; }
+        .hero-subtitle { font-size: 13px; color: #b3b3b3; margin-bottom: 15px; }
+        .refresh-data-btn { background: #e50914; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+        .refresh-data-btn:hover { background: #c50710; }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 0 15px 50px 15px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 25px 0 15px 0; border-right: 4px solid #e50914; padding-right: 12px; }
+        .section-header h2 { font-size: 18px; font-weight: 700; color: #fff; }
+        .days-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .day-btn { background: rgba(255, 255, 255, 0.04); color: #a0aec0; border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; transition: all 0.3s; }
+        .day-btn.active, .day-btn:hover { background: linear-gradient(135deg, #e50914, #b20710); color: #fff; border-color: #e50914; box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3); }
+        
+        .match-card { background: linear-gradient(145deg, #15161d, #1a1b24); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); margin-bottom: 18px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.06); cursor: pointer; transition: all 0.3s; }
+        .match-card:hover { transform: translateY(-3px); border-color: rgba(229, 9, 20, 0.4); box-shadow: 0 15px 35px rgba(229, 9, 20, 0.2); }
+        .match-header-info { background: rgba(0, 0, 0, 0.25); padding: 8px 18px; font-size: 12px; color: #9ca3af; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+        .match-body { display: flex; align-items: center; justify-content: space-between; padding: 22px 15px; }
+        .team { display: flex; flex-direction: column; align-items: center; width: 35%; text-align: center; }
+        .team img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+        .team-name { font-size: 14px; font-weight: 700; color: #fff; }
+        .match-center { display: flex; flex-direction: column; align-items: center; width: 30%; }
+        .score-box { font-size: 18px; font-weight: 800; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); padding: 5px 14px; border-radius: 8px; margin-bottom: 8px; color: #fff; }
+        .match-status { background-color: #e50914; color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 800; animation: pulse 2s infinite; }
+        .match-status.second-half { background-color: #10b981; }
+        .match-status.upcoming { background-color: #3b82f6; animation: none; }
+        .match-status.ended { background-color: #6b7280; animation: none; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .match-footer { background: rgba(0, 0, 0, 0.15); padding: 10px 18px; font-size: 12px; color: #9ca3af; display: flex; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.04); }
 
+        .news-card { background: linear-gradient(145deg, #15161d, #1a1b24); border-radius: 14px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        @media(min-width: 600px) { .news-card { flex-direction: row; } }
+        .news-img { width: 100%; height: 150px; object-fit: cover; }
+        @media(min-width: 600px) { .news-img { width: 200px; height: auto; } }
+        .news-content { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .news-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+        .news-summary { font-size: 12px; color: #aaa; margin-bottom: 10px; line-height: 1.4; }
+        .news-time { font-size: 11px; color: #e50914; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+    </style>
+</head>
+<body>
 
-def generate_youb_tv_data():
-  print("[*] جاري توليد بيانات YOUB TV المتوافقة تماماً مع الواجهة...")
+    <header class="main-header" style="background: rgba(15,16,21,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 1000;">
+        <a href="index.html" class="logo-box" style="background: transparent; color: #fff; font-size: 22px; font-weight: 800; text-decoration: none;">
+            YOUB <span style="color: #e50914;">TV</span>
+        </a>
+        <button class="menu-toggle-btn" id="menuBtn" style="background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 8px; cursor: pointer;">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
 
-  # حساب التواريخ
-  today = datetime.now().strftime("%Y-%m-%d")
-  yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
-  tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; color: #fff;">
+            <span style="font-weight: bold; font-size: 18px;">قائمة المنصة</span>
+            <button class="close-sidebar" id="closeBtn" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <ul class="sidebar-links" style="list-style: none;">
+            <li style="margin-bottom: 15px;"><a href="index.html" style="color: #fff; text-decoration: none; display: block; padding: 10px; border-radius: 8px; background: rgba(229,9,20,0.1); border-right: 3px solid #e50914;"><i class="fa-solid fa-house" style="margin-left: 8px;"></i> الرئيسية والمباريات</a></li>
+            <li style="margin-bottom: 15px;"><a href="channels.html?cat=sports" style="color: #ccc; text-decoration: none; display: block; padding: 10px; border-radius: 8px;"><i class="fa-solid fa-futbol" style="margin-left: 8px;"></i> القنوات الرياضية</a></li>
+            <li style="margin-bottom: 15px;"><a href="channels.html?cat=news" style="color: #ccc; text-decoration: none; display: block; padding: 10px; border-radius: 8px;"><i class="fa-solid fa-newspaper" style="margin-left: 8px;"></i> القنوات الإخبارية</a></li>
+            <li style="margin-bottom: 15px;"><a href="channels.html?cat=general" style="color: #ccc; text-decoration: none; display: block; padding: 10px; border-radius: 8px;"><i class="fa-solid fa-tv" style="margin-left: 8px;"></i> القنوات العامة</a></li>
+        </ul>
+    </div>
 
-  # الهيكل المتوافق 100% مع أسماء الحقول التي تطلبها صفحة index.html
-  matches_data = {
-      yesterday: [
-          {
-              "title": "تصفيات كأس أمم أفريقيا",
-              "stadium": "ملعب الشهداء",
-              "team1": "الجزائر",
-              "team2": "توجو",
-              "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg",
-              "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/6/68/Flag_of_Togo.svg",
-              "score": "2 - 0",
-              "status": "انتهت",
-              "statusClass": "ended",
-              "channel": "بي إن سبورت 1",
-              "commentator": "حفيظ دراجي",
-              "streamUrl": "https://example.com/stream1",
-          }
-      ],
-      today: [
-          {
-              "title": "دوري أبطال أوروبا",
-              "stadium": "سانتياغو برنابيو",
-              "team1": "ريال مدريد",
-              "team2": "مانشستر سيتي",
-              "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/5/56/Real_Madrid_CF.svg",
-              "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Manchester_City_Logo_%282016%29.svg",
-              "score": "1 - 1",
-              "status": "جاري الآن",
-              "statusClass": "second-half",
-              "channel": "بي إن سبورت 2",
-              "commentator": "عصام الشوالي",
-              "streamUrl": "https://example.com/stream2",
-          }
-      ],
-      tomorrow: [
-          {
-              "title": "الدوري الإسباني",
-              "stadium": "كامب نو",
-              "team1": "برشلونة",
-              "team2": "أتلتيكو مدريد",
-              "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/4/47/FC_Barcelona_%28crest%29.svg",
-              "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Atletico_Madrid_logo_2024.svg",
-              "score": "0 - 0",
-              "status": "قريباً",
-              "statusClass": "upcoming",
-              "channel": "بي إن سبورت 1",
-              "commentator": "حاج عيسى",
-              "streamUrl": "https://example.com/stream3",
-          }
-      ],
-  }
+    <div class="container">
+        <div class="hero-banner">
+            <h1 class="hero-title">عالم البث المباشر بين يديـك مع <span>YOUB TV</span></h1>
+            <p class="hero-subtitle">جدول المباريات الشامل، القنوات الرياضية، والأخبار المحدثة لحظة بلحظة</p>
+            <button class="refresh-data-btn" onclick="location.reload()"><i class="fa-solid fa-rotate-right"></i> تحديث المباريات والنتائج الآن</button>
+        </div>
 
-  # حفظ ملف matches.json
-  with open("matches.json", "w", encoding="utf-8") as f:
-    json.dump(matches_data, f, ensure_ascii=False, indent=4)
-  print("[+] تم تحديث matches.json بنجاح.")
+        <div class="section-header">
+            <h2>جدول المباريات</h2>
+        </div>
+        
+        <div class="days-tabs">
+            <button class="day-btn" id="btnYesterday" onclick="loadMatches('yesterday')">مباريات الأمس</button>
+            <button class="day-btn active" id="btnToday" onclick="loadMatches('today')">مباريات اليوم</button>
+            <button class="day-btn" id="btnTomorrow" onclick="loadMatches('tomorrow')">مباريات الغد</button>
+        </div>
 
-  # هيكل الأخبار المتوافق مع index.html
-  news_data = [
-      {
-          "title": "المنتخب الجزائري يواصل تحضيراته بقوة وبتركيز كبير",
-          "summary": (
-              "تحديث آلي عبر نظام YOUB TV الذكي لجلب آخر المستجدات الرياضية"
-              " لحظة بلحظة."
-          ),
-          "time": datetime.now().strftime("%H:%M"),
-          "image": (
-              "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=400&auto=format&fit=crop"
-          ),
-      }
-  ]
+        <div id="matchesContainer">
+            <p style="text-align: center; color: #888; padding: 20px;">جاري تحميل المباريات...</p>
+        </div>
 
-  # حفظ ملف news.json
-  with open("news.json", "w", encoding="utf-8") as f:
-    json.dump(news_data, f, ensure_ascii=False, indent=4)
-  print("[+] تم تحديث news.json بنجاح.")
+        <div class="section-header" style="margin-top: 35px;">
+            <h2>آخر الأخبار الرياضية</h2>
+        </div>
+        <div id="newsContainer">
+            <p style="text-align: center; color: #888; padding: 20px;">جاري تحميل الأخبار...</p>
+        </div>
+    </div>
 
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sidebar = document.getElementById('sidebar');
 
-if __name__ == "__main__":
-  generate_youb_tv_data()
+        menuBtn.addEventListener('click', () => sidebar.classList.add('open'));
+        closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+
+        let globalMatchesData = {};
+
+        async function loadMatches(dayKey) {
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            if(dayKey === 'yesterday') document.getElementById('btnYesterday').classList.add('active');
+            if(dayKey === 'today') document.getElementById('btnToday').classList.add('active');
+            if(dayKey === 'tomorrow') document.getElementById('btnTomorrow').classList.add('active');
+
+            const matches = globalMatchesData[dayKey] || [];
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = '';
+
+            if (matches.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">لا توجد مباريات مسجلة في هذا اليوم.</p>';
+                return;
+            }
+
+            matches.forEach(match => {
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                card.onclick = () => {
+                    window.location.href = `./play.html?title=${encodeURIComponent(match.team1 + ' ضد ' + match.team2)}&stream=${encodeURIComponent(match.streamUrl)}`;
+                };
+
+                card.innerHTML = `
+                    <div class="match-header-info">
+                        <span>${match.title}</span>
+                        <span>${match.stadium}</span>
+                    </div>
+                    <div class="match-body">
+                        <div class="team">
+                            <img src="${match.team1Logo}" alt="${match.team1}">
+                            <span class="team-name">${match.team1}</span>
+                        </div>
+                        <div class="match-center">
+                            <div class="score-box">${match.score}</div>
+                            <span class="match-status ${match.statusClass}"><i class="fa-solid fa-circle" style="font-size: 6px;"></i> ${match.status}</span>
+                        </div>
+                        <div class="team">
+                            <img src="${match.team2Logo}" alt="${match.team2}">
+                            <span class="team-name">${match.team2}</span>
+                        </div>
+                    </div>
+                    <div class="match-footer">
+                        <span><i class="fa-solid fa-tv" style="color: #e50914;"></i> ${match.channel}</span>
+                        <span>المعلق: ${match.commentator}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch('./matches.json');
+                globalMatchesData = await res.json();
+                loadMatches('today');
+            } catch (e) {
+                console.error("خطأ في جلب المباريات:", e);
+                document.getElementById('matchesContainer').innerHTML = '<p style="text-align: center; color: #e50914;">يرجى تشغيل البوت لتوليد المباريات!</p>';
+            }
+
+            try {
+                const resNews = await fetch('./news.json');
+                const newsList = await resNews.json();
+                const nContainer = document.getElementById('newsContainer');
+                nContainer.innerHTML = '';
+
+                newsList.forEach(item => {
+                    const nCard = document.createElement('div');
+                    nCard.className = 'news-card';
+                    nCard.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" class="news-img">
+                        <div class="news-content">
+                            <div>
+                                <div class="news-title">${item.title}</div>
+                                <div class="news-summary">${item.summary}</div>
+                            </div>
+                            <div class="news-time"><i class="fa-regular fa-clock"></i> ${item.time}</div>
+                        </div>
+                    `;
+                    nContainer.appendChild(nCard);
+                });
+            } catch (e) {
+                console.error("خطأ في جلب الأخبار:", e);
+            }
+        });
+    </script>
+</body>
+</html>
