@@ -4,89 +4,86 @@ import os
 
 
 def generate_youb_tv_data():
-  print("[*] بدء عملية جلب وتحديث بيانات YOUB TV...")
+  print("[*] جاري توليد بيانات YOUB TV المتوافقة تماماً مع الواجهة...")
 
-  # التواريخ الديناميكية للجدول الزمني
+  # حساب التواريخ
   today = datetime.now().strftime("%Y-%m-%d")
   yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
   tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
 
-  # هيكل مباريات متوافق تماماً مع الواجهة
+  # الهيكل المتوافق 100% مع أسماء الحقول التي تطلبها صفحة index.html
   matches_data = {
-      "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-      "dates": {"yesterday": yesterday, "today": today, "tomorrow": tomorrow},
-      "matches": {
-          yesterday: [
-              {
-                  "time": "21:00",
-                  "competition": "تصفيات كأس أمم أفريقيا",
-                  "stadium": "ملعب الشهداء",
-                  "home_team": "الجزائر",
-                  "away_team": "توجو",
-                  "home_flag": "🇩🇿",
-                  "away_flag": "🇹🇬",
-                  "score": "2 - 0",
-                  "status": "انتهت",
-                  "channel": "بي إن سبورت 1",
-                  "commentator": "حفيظ دراجي",
-              }
-          ],
-          today: [
-              {
-                  "time": "20:00",
-                  "competition": "دوري أبطال أوروبا",
-                  "stadium": "سانتياغو برنابيو",
-                  "home_team": "ريال مدريد",
-                  "away_team": "مانشستر سيتي",
-                  "home_flag": "🇪🇸",
-                  "away_flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-                  "score": "1 - 1",
-                  "status": "جاري الان",
-                  "channel": "بي إن سبورت 2",
-                  "commentator": "عصام الشوالي",
-              }
-          ],
-          tomorrow: [
-              {
-                  "time": "21:00",
-                  "competition": "الدوري الإسباني",
-                  "stadium": "كامب نو",
-                  "home_team": "برشلونة",
-                  "away_team": "أتلتيكو مدريد",
-                  "home_flag": "🇪🇸",
-                  "away_flag": "🇪🇸",
-                  "score": "0 - 0",
-                  "status": "قريباً",
-                  "channel": "بي إن سبورت 1",
-                  "commentator": "حاج عيسى",
-              }
-          ],
-      },
-  }
-
-  # حفظ ملف المباريات
-  with open("matches.json", "w", encoding="utf-8") as f:
-    json.dump(matches_data, f, ensure_ascii=False, indent=4)
-  print("[+] تم تحديث matches.json بنجاح.")
-
-  # هيكل الأخبار الرياضية
-  news_data = {
-      "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-      "articles": [
+      yesterday: [
           {
-              "title": (
-                  "تحديث جديد عبر منصة YOUB TV الذكية: متابعة حية ومستمرة"
-              ),
-              "time": datetime.now().strftime("%H:%M"),
-              "content": (
-                  "البوت يعمل بنجاح في الخلفية ويحدث النتائج والأخبار تلقائياً"
-                  " كل دقيقة."
-              ),
+              "title": "تصفيات كأس أمم أفريقيا",
+              "stadium": "ملعب الشهداء",
+              "team1": "الجزائر",
+              "team2": "توجو",
+              "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg",
+              "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/6/68/Flag_of_Togo.svg",
+              "score": "2 - 0",
+              "status": "انتهت",
+              "statusClass": "ended",
+              "channel": "بي إن سبورت 1",
+              "commentator": "حفيظ دراجي",
+              "streamUrl": "https://example.com/stream1",
+          }
+      ],
+      today: [
+          {
+              "title": "دوري أبطال أوروبا",
+              "stadium": "سانتياغو برنابيو",
+              "team1": "ريال مدريد",
+              "team2": "مانشستر سيتي",
+              "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/5/56/Real_Madrid_CF.svg",
+              "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Manchester_City_Logo_%282016%29.svg",
+              "score": "1 - 1",
+              "status": "جاري الآن",
+              "statusClass": "second-half",
+              "channel": "بي إن سبورت 2",
+              "commentator": "عصام الشوالي",
+              "streamUrl": "https://example.com/stream2",
+          }
+      ],
+      tomorrow: [
+          {
+              "title": "الدوري الإسباني",
+              "stadium": "كامب نو",
+              "team1": "برشلونة",
+              "team2": "أتلتيكو مدريد",
+              "team1Logo": "https://upload.wikimedia.org/wikipedia/commons/4/47/FC_Barcelona_%28crest%29.svg",
+              "team2Logo": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Atletico_Madrid_logo_2024.svg",
+              "score": "0 - 0",
+              "status": "قريباً",
+              "statusClass": "upcoming",
+              "channel": "بي إن سبورت 1",
+              "commentator": "حاج عيسى",
+              "streamUrl": "https://example.com/stream3",
           }
       ],
   }
 
-  # حفظ ملف الأخبار
+  # حفظ ملف matches.json
+  with open("matches.json", "w", encoding="utf-8") as f:
+    json.dump(matches_data, f, ensure_ascii=False, indent=4)
+  print("[+] تم تحديث matches.json بنجاح.")
+
+  # هيكل الأخبار المتوافق مع index.html
+  news_data = [
+      {
+          "title": "المنتخب الجزائري يواصل تحضيراته بقوة وبتركيز كبير",
+          "summary": (
+              "تحديث آلي عبر نظام YOUB TV الذكي لجلب آخر المستجدات الرياضية"
+              " لحظة بلحظة."
+          ),
+          "time": datetime.now().strftime("%H:%M"),
+          "image": (
+              "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=400&auto=format&fit=crop"
+          ),
+      }
+  ]
+
+  # حفظ ملف news.json
   with open("news.json", "w", encoding="utf-8") as f:
     json.dump(news_data, f, ensure_ascii=False, indent=4)
   print("[+] تم تحديث news.json بنجاح.")
@@ -94,4 +91,3 @@ def generate_youb_tv_data():
 
 if __name__ == "__main__":
   generate_youb_tv_data()
-
