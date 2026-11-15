@@ -2,7 +2,7 @@ name: YOUB TV Auto-Scraper
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # يعمل تلقائياً كل 15 دقيقة في الخلفية
+    - cron: '* * * * *' # يعمل تلقائياً كل دقيقة في الخلفية
   workflow_dispatch:
 
 jobs:
